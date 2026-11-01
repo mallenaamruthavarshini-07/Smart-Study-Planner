@@ -31,6 +31,10 @@ GitHub stores the source code; it does not run the app. To create a live URL:
 
 The Blueprint uses Render's free service plan. The server listens on Render's `PORT`, and the HTTPS URL supports installing the PWA. **Free services do not provide persistent disks**: account and study data saved in the JSON database can be lost when the service restarts or is redeployed. For persistent data, use a paid Render service with a persistent disk and set `DATA_DIR` to its mount path (for example, `/var/data`).
 
+## Install on a phone or computer
+
+Use the **Install App** button on the sign-in screen or in the app's navigation menu. If the browser does not offer a one-tap install prompt, the button shows the browser-specific steps. The app must be opened from its HTTPS URL; on iPhone and iPad, use Safari's **Share > Add to Home Screen** option.
+
 To push this project to GitHub, create an empty repository on GitHub, then run these commands from this project directory, replacing the URL with your repository's URL:
 
 ```bash

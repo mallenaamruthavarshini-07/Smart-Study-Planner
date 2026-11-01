@@ -38,8 +38,11 @@ import { AuthScreen } from './components/AuthScreen';
 import { NewUserGuideModal } from './components/NewUserGuideModal';
 import { ProfileAvatarModal } from './components/ProfileAvatarModal';
 import { triggerCelebration } from './utils/confetti';
+import { PWAInstallButton } from './components/PWAInstallButton';
+import { usePWAInstall } from './hooks/usePWAInstall';
 
 export default function App() {
+  const pwaInstall = usePWAInstall();
   const [user, setUser] = useState<User | null>(() => {
     return getStoredToken() ? getStoredUser() : null;
   });
@@ -462,10 +465,15 @@ export default function App() {
   // When app opens and student is not logged in, ask to login or create account
   if (!user) {
     return (
-      <AuthScreen
-        onLoginSuccess={handleLoginSuccess}
-        onRegisterSuccess={handleRegisterSuccess}
-      />
+      <>
+        <div className="fixed right-4 top-4 z-40">
+          <PWAInstallButton installState={pwaInstall} />
+        </div>
+        <AuthScreen
+          onLoginSuccess={handleLoginSuccess}
+          onRegisterSuccess={handleRegisterSuccess}
+        />
+      </>
     );
   }
 
@@ -557,6 +565,7 @@ export default function App() {
         onOpenBackendExport={() => setShowBackendModal(true)}
         onLogout={handleLogout}
         onOpenAuth={() => setShowAuthModal(true)}
+        pwaInstall={pwaInstall}
       />
 
       {/* Main Responsive Canvas: adapts to Laptop or Mobile Phone Configuration */}

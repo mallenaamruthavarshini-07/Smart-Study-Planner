@@ -5,10 +5,19 @@ interface BeforeInstallPromptEvent extends Event {
   userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
 }
 
+export interface PWAInstallState {
+  isInstallable: boolean;
+  isInstalled: boolean;
+  isIOS: boolean;
+  isAndroid: boolean;
+  install: () => Promise<boolean>;
+}
+
 export function usePWAInstall() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
 
   useEffect(() => {
     // Detect standalone mode
@@ -19,8 +28,11 @@ export function usePWAInstall() {
 
     // Detect iOS devices
     const userAgent = window.navigator.userAgent.toLowerCase();
-    const isIOSDevice = /iphone|ipad|ipod/.test(userAgent);
+    const isIOSDevice =
+      /iphone|ipad|ipod/.test(userAgent) ||
+      (window.navigator.platform === 'MacIntel' && window.navigator.maxTouchPoints > 1);
     setIsIOS(isIOSDevice);
+    setIsAndroid(/android/.test(userAgent));
 
     const handleBeforeInstallPrompt = (e: Event) => {
       e.preventDefault();
@@ -45,9 +57,9 @@ export function usePWAInstall() {
     if (!deferredPrompt) return false;
     await deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
+    setDeferredPrompt(null);
     if (outcome === 'accepted') {
       setIsInstalled(true);
-      setDeferredPrompt(null);
       return true;
     }
     return false;
@@ -57,6 +69,7 @@ export function usePWAInstall() {
     isInstallable: !!deferredPrompt,
     isInstalled,
     isIOS,
+    isAndroid,
     install,
   };
 }

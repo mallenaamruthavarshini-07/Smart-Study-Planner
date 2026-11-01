@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { PWAInstallButton } from './PWAInstallButton';
 import { DeviceModeToggle } from './DeviceModeToggle';
+import type { PWAInstallState } from '../hooks/usePWAInstall';
 
 interface NavbarProps {
   user: User | null;
@@ -36,6 +37,7 @@ interface NavbarProps {
   onOpenBackendExport: () => void;
   onLogout: () => void;
   onOpenAuth: () => void;
+  pwaInstall: PWAInstallState;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -53,6 +55,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   onOpenBackendExport,
   onLogout,
   onOpenAuth,
+  pwaInstall,
 }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
 
@@ -122,6 +125,9 @@ export const Navbar: React.FC<NavbarProps> = ({
             <div className="mt-4 grid grid-cols-2 gap-2 border-t border-slate-200 pt-4 dark:border-slate-700">
               <div className="col-span-2">
                 <DeviceModeToggle deviceMode={deviceMode} onChangeMode={onChangeDeviceMode} />
+              </div>
+              <div className="col-span-2">
+                <PWAInstallButton installState={pwaInstall} />
               </div>
               <button
                 type="button"
@@ -247,7 +253,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         <div className="mt-6 flex flex-col gap-2 border-t border-slate-200/80 pt-4 dark:border-slate-700">
           <DeviceModeToggle deviceMode={deviceMode} onChangeMode={onChangeDeviceMode} />
-          <PWAInstallButton />
+          <PWAInstallButton installState={pwaInstall} />
           <button
             onClick={onOpenGuide}
             className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-purple-700 dark:text-slate-300 dark:hover:bg-slate-800"
