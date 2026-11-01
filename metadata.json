@@ -1,0 +1,6 @@
+{
+  "name": "StudyMate – Smart Study Planner",
+  "description": "Smart study planner and academic productivity system with task management, exam countdowns, syllabus tracker, documents repository, consistency heatmap, and customizable study themes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,190 @@
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --bg-primary: #F1EDFF;
+  --card-bg: #FFFFFF;
+  --accent: #8066C5;
+  --accent-hover: #6C52B0;
+  --accent-subtle: #EBE4FF;
+  --accent-text: #FFFFFF;
+  --text-main: #1E1B2E;
+  --text-muted: #6B6580;
+  --border-color: #E2DAF7;
+  --ring-color: #8066C5;
+}
+
+[data-theme="soft-grey"] {
+  --bg-primary: #10151F;
+  --card-bg: #1C2432;
+  --accent: #AAB7CA;
+  --accent-hover: #C4CEDD;
+  --accent-subtle: #303B4D;
+  --accent-text: #FFFFFF;
+  --text-main: #F1F5F9;
+  --text-muted: #A0AEC0;
+  --border-color: #354154;
+  --ring-color: #AAB7CA;
+}
+
+[data-theme="light-purple"] {
+  --bg-primary: #F1EDFF;
+  --card-bg: #FFFFFF;
+  --accent: #8066C5;
+  --accent-hover: #6C52B0;
+  --accent-subtle: #EBE4FF;
+  --accent-text: #FFFFFF;
+  --text-main: #1E1B2E;
+  --text-muted: #6B6580;
+  --border-color: #E2DAF7;
+  --ring-color: #8066C5;
+}
+
+[data-theme="soft-peach"] {
+  --bg-primary: #1B1215;
+  --card-bg: #2A1D22;
+  --accent: #E7A28D;
+  --accent-hover: #F0B7A5;
+  --accent-subtle: #493039;
+  --accent-text: #FFFFFF;
+  --text-main: #FFF5F1;
+  --text-muted: #C4A29A;
+  --border-color: #50363C;
+  --ring-color: #E7A28D;
+}
+
+[data-theme="lemon-yellow"] {
+  --bg-primary: #171509;
+  --card-bg: #282414;
+  --accent: #E6C95C;
+  --accent-hover: #F0D978;
+  --accent-subtle: #443B1B;
+  --accent-text: #FFFFFF;
+  --text-main: #FFFBEA;
+  --text-muted: #C4B987;
+  --border-color: #4B4224;
+  --ring-color: #E6C95C;
+}
+
+/* Dark Theme ("Midnight Slate") */
+[data-theme="dark"] {
+  --bg-primary: #0B0F19;
+  --card-bg: #1E293B;
+  --accent: #818CF8;
+  --accent-hover: #6366F1;
+  --accent-subtle: #312E81;
+  --accent-text: #FFFFFF;
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --border-color: #334155;
+  --ring-color: #818CF8;
+}
+
+.dark .bg-white {
+  background-color: var(--card-bg) !important;
+  color: var(--text-main) !important;
+}
+
+.dark .bg-slate-50,
+.dark .bg-slate-50\/50,
+.dark .bg-slate-50\/60,
+.dark .bg-slate-50\/70,
+.dark .bg-slate-100,
+.dark .bg-slate-100\/80 {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-main) !important;
+}
+
+.dark .border-slate-100,
+.dark .border-slate-200,
+.dark .border-slate-200\/80,
+.dark .border-slate-300 {
+  border-color: var(--border-color) !important;
+}
+
+.dark .text-slate-900,
+.dark .text-slate-800,
+.dark .text-slate-700 {
+  color: var(--text-main) !important;
+}
+
+.dark .text-slate-600,
+.dark .text-slate-500 {
+  color: var(--text-muted) !important;
+}
+
+.dark input,
+.dark select,
+.dark textarea {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-main) !important;
+  border-color: var(--border-color) !important;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  min-height: 100vh;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.tabular-nums {
+  font-family: 'JetBrains Mono', monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(140, 140, 160, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(140, 140, 160, 0.45);
+}
+
+/* Soft transition utilities */
+.theme-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.theme-card:hover {
+  border-color: var(--accent);
+}
+
+.theme-btn-primary {
+  background-color: var(--accent);
+  color: var(--accent-text);
+  transition: background-color 0.18s ease, transform 0.12s ease;
+}
+
+.theme-btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.theme-btn-subtle {
+  background-color: var(--accent-subtle);
+  color: var(--text-main);
+  transition: background-color 0.18s ease;
+}
+
+.theme-btn-subtle:hover {
+  filter: brightness(0.96);
+}

@@ -1,0 +1,19 @@
+{
+  "id": "/",
+  "name": "StudyMate – Smart Study Planner",
+  "short_name": "StudyMate",
+  "description": "Smart study planner and academic productivity system for students.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#8066C5",
+  "background_color": "#F2F3F5",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

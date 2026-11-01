@@ -1,0 +1,13 @@
+node_modules/
+build/
+dist/
+server.js
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+data/*.json
+backend_flask/.env
+backend_flask/venv/
+backend_flask/uploads/
