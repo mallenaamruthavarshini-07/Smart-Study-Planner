@@ -20,17 +20,16 @@ npm start
 
 The app stores its local JSON database in `data/studymate_db.json`. Set `DATA_DIR` to use another directory. Local database files are intentionally excluded from Git.
 
-## Publish and deploy
+## Deploy on Render
 
-GitHub stores the source code; it does not run this app by itself. Deploy the repository to a Node.js host that supports a persistent disk, then:
+GitHub stores the source code; it does not run the app. To create a live URL:
 
-1. Set the build command to `npm ci && npm run build`.
-2. Set the start command to `npm start`.
-3. Set `NODE_ENV` to `production`.
-4. Attach a persistent disk and set `DATA_DIR` to its mount path (for example, `/var/data`).
-5. Use the HTTPS URL provided by the host. HTTPS is required for installing the PWA and using service workers.
+1. Open [Render](https://render.com/) and sign in.
+2. Choose **New > Blueprint**, then connect the `Smart-Study-Planner` GitHub repository.
+3. Review and apply the `render.yaml` configuration. Render will build and start the app.
+4. Open the `studymate` web service in Render and use its `onrender.com` URL on your other devices.
 
-The app listens on the host-provided `PORT`. Without a persistent disk, saved accounts and study data may be lost when the service restarts or is redeployed. The included JSON database is suitable for a small deployment; use a managed database for production-scale or multi-instance hosting.
+The Blueprint uses Render's free service plan. The server listens on Render's `PORT`, and the HTTPS URL supports installing the PWA. **Free services do not provide persistent disks**: account and study data saved in the JSON database can be lost when the service restarts or is redeployed. For persistent data, use a paid Render service with a persistent disk and set `DATA_DIR` to its mount path (for example, `/var/data`).
 
 To push this project to GitHub, create an empty repository on GitHub, then run these commands from this project directory, replacing the URL with your repository's URL:
 
