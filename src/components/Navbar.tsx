@@ -15,6 +15,8 @@ import {
   BarChart3,
   FolderOpen,
   Activity,
+  Menu,
+  X,
 } from 'lucide-react';
 import { PWAInstallButton } from './PWAInstallButton';
 import { DeviceModeToggle } from './DeviceModeToggle';
@@ -52,6 +54,8 @@ export const Navbar: React.FC<NavbarProps> = ({
   onLogout,
   onOpenAuth,
 }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { id: 'goals', label: 'Learning Goals', icon: Target },
@@ -65,14 +69,156 @@ export const Navbar: React.FC<NavbarProps> = ({
   return (
     <>
       <header className="sticky top-0 z-40 w-full backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200/80 dark:border-slate-800 transition-colors">
-        <div className="h-16 px-4 sm:px-6 flex items-center">
+        <div className="h-16 px-4 sm:px-6 flex items-center justify-between">
           <button
             onClick={() => onTabChange('dashboard')}
             className="font-heading text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:text-purple-700 transition-colors"
           >
             StudyMate
           </button>
+          <button
+            type="button"
+            className="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-xl text-slate-700 hover:bg-slate-100 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-700 dark:text-slate-200 dark:hover:bg-slate-800"
+            aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            aria-expanded={isMobileMenuOpen}
+            aria-controls="mobile-navigation-menu"
+            onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+          >
+            {isMobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
+        {isMobileMenuOpen && (
+          <nav
+            id="mobile-navigation-menu"
+            aria-label="Main navigation and settings"
+            className="absolute left-0 right-0 top-full max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-900 lg:hidden"
+          >
+            <div className="grid grid-cols-2 gap-2">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentTab === item.id;
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      onTabChange(item.id);
+                      setIsMobileMenuOpen(false);
+                    }}
+                    aria-current={isActive ? 'page' : undefined}
+                    className={`flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm font-semibold ${
+                      isActive
+                        ? 'bg-purple-100 text-purple-900 dark:bg-purple-900/40 dark:text-purple-200'
+                        : 'text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    <span>{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-2 border-t border-slate-200 pt-4 dark:border-slate-700">
+              <div className="col-span-2">
+                <DeviceModeToggle deviceMode={deviceMode} onChangeMode={onChangeDeviceMode} />
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenNotifications();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                <Bell className="h-4 w-4" />
+                <span>Notifications{unreadNotifsCount > 0 ? ` (${unreadNotifsCount})` : ''}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenThemes();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                <Palette className="h-4 w-4" />
+                Appearance
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenGuide();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                <HelpCircle className="h-4 w-4" />
+                How to use
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenBackendExport();
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+              >
+                <Code2 className="h-4 w-4" />
+                Flask/MySQL
+              </button>
+              {user && (
+                <>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onOpenAvatarPicker();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-800"
+                  >
+                    <Camera className="h-4 w-4" />
+                    Profile · {user.xp} XP
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onOpenRewards();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-amber-800 hover:bg-amber-50 dark:text-amber-300 dark:hover:bg-amber-950/40"
+                  >
+                    <Flame className="h-4 w-4" />
+                    {user.streakDays} day streak
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      onLogout();
+                      setIsMobileMenuOpen(false);
+                    }}
+                    className="col-span-2 flex min-h-11 items-center gap-2 rounded-xl px-3 py-2 text-left text-sm text-rose-700 hover:bg-rose-50 dark:text-rose-300 dark:hover:bg-rose-950/40"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Sign out
+                  </button>
+                </>
+              )}
+              {!user && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    onOpenAuth();
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className="col-span-2 min-h-11 rounded-xl bg-purple-700 px-3 py-2 text-sm font-semibold text-white hover:bg-purple-800"
+                >
+                  Sign in
+                </button>
+              )}
+            </div>
+          </nav>
+        )}
       </header>
 
       <aside className="fixed left-0 top-16 bottom-0 z-30 hidden lg:flex w-64 flex-col overflow-y-auto border-r border-slate-200/80 bg-white/90 px-4 py-5 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/90">
