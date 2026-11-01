@@ -3,7 +3,7 @@
  * Handles offline caching and Web Push notifications
  */
 
-const CACHE_NAME = 'studymate-cache-v1';
+const CACHE_NAME = 'studymate-cache-v2';
 const STATIC_ASSETS = [
   '/',
   '/index.html',
@@ -35,6 +35,25 @@ self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET' || event.request.url.includes('/api/')) {
     return;
   }
+
+  if (event.request.mode === 'navigate') {
+    event.respondWith(
+      fetch(event.request)
+        .then(async (response) => {
+          if (response.ok) {
+            const cache = await caches.open(CACHE_NAME);
+            await cache.put(event.request, response.clone());
+          }
+          return response;
+        })
+        .catch(async () => {
+          const cachedPage = await caches.match(event.request);
+          return cachedPage || caches.match('/index.html');
+        })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cached) => {
       return (
